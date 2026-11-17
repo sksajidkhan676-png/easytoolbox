@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free online calculators and useful tools: age, percentage, BMI, calculator, word counter, text case converter, unit converter and password generator.">
+<meta name="theme-color" content="#123b6d">
+<title>EasyToolbox — Free Online Tools</title>
+<style>
+:root{--navy:#123b6d;--blue:#2563eb;--bg:#f4f7fb;--ink:#172033;--muted:#64748b;--line:#e3eaf3;--white:#fff;--green:#16845b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(120deg,#102f57,#2563eb);color:#fff;padding:26px 18px 34px}
+.wrap{max-width:1080px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-size:1.3rem;font-weight:800;letter-spacing:.2px}.pill{border:1px solid #ffffff66;border-radius:99px;padding:5px 11px;font-size:.78rem}
+.hero{padding:34px 0 12px}.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin:0 0 12px}.hero p{color:#e3edff;max-width:650px;margin:0}
+main{padding:24px 18px 55px}.search{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:13px;font-size:1rem;background:#fff;margin-bottom:20px;outline-color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 18px #193b6810}.tool-card{cursor:pointer;transition:.18s}.tool-card:hover{transform:translateY(-2px);border-color:#9bbcff}.ico{font-size:1.7rem}.tool-card h3{margin:7px 0 3px;font-size:1.06rem}.tool-card p{margin:0;color:var(--muted);font-size:.9rem}
+.panel{margin-top:22px;display:none}.panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.panel h2{margin:0 0 14px}.close{background:#edf3ff;color:var(--navy);border:0;border-radius:9px;padding:8px 12px;cursor:pointer}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.field label{display:block;font-size:.88rem;font-weight:650;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:white}.field textarea{min-height:120px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.btn{border:0;border-radius:10px;background:var(--blue);color:white;padding:11px 16px;font-weight:700;cursor:pointer}.btn.secondary{background:#eaf1ff;color:var(--navy)}.result{margin-top:14px;padding:13px 15px;background:#effaf5;border:1px solid #b9e8d1;border-radius:11px;color:#145b40;overflow-wrap:anywhere;min-height:48px}
+.note{font-size:.82rem;color:var(--muted);margin-top:12px}.hidden{display:none!important}
+footer{border-top:1px solid var(--line);padding:22px 18px;text-align:center;color:var(--muted);font-size:.88rem}
+@media(max-width:560px){.top{align-items:flex-start}.pill{font-size:.7rem}.hero{padding-top:28px}.grid{grid-template-columns:1fr 1fr}.card{padding:14px}}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div class="brand">🧰 EasyToolbox</div><div class="pill">100% Free Tools</div></div>
+ <section class="hero"><h1>Useful tools.<br>Simple answers.</h1><p>Free online calculators and everyday tools. No account required — choose a tool and get started.</p></section>
+</div></header>
+<main class="wrap">
+ <input id="search" class="search" type="search" placeholder="Search tools..." aria-label="Search tools">
+ <section class="grid" id="toolGrid">
+  <article class="card tool-card" data-tool="age"><div class="ico">🎂</div><h3>Age Calculator</h3><p>Calculate your age in years, months and days.</p></article>
+  <article class="card tool-card" data-tool="percentage"><div class="ico">％</div><h3>Percentage Calculator</h3><p>Find a percentage or percentage change.</p></article>
+  <article class="card tool-card" data-tool="bmi"><div class="ico">⚖️</div><h3>BMI Calculator</h3><p>Calculate body mass index from height and weight.</p></article>
+  <article class="card tool-card" data-tool="calculator"><div class="ico">🧮</div><h3>Basic Calculator</h3><p>Do everyday arithmetic calculations.</p></article>
+  <article class="card tool-card" data-tool="words"><div class="ico">📝</div><h3>Word Counter</h3><p>Count words, characters and sentences.</p></article>
+  <article class="card tool-card" data-tool="text"><div class="ico">🔠</div><h3>Text Case Converter</h3><p>Change text to upper, lower or title case.</p></article>
+  <article class="card tool-card" data-tool="unit"><div class="ico">📏</div><h3>Length Converter</h3><p>Convert metres, kilometres, feet and inches.</p></article>
+  <article class="card tool-card" data-tool="password"><div class="ico">🔐</div><h3>Password Generator</h3><p>Create a strong random password on your device.</p></article>
+ </section>
+ <section class="card panel" id="panel" aria-live="polite">
+  <div class="panel-head"><h2 id="panelTitle">Tool</h2><button class="close" id="close">Close ✕</button></div>
+  <div id="toolBody"></div>
+ </section>
+ <p class="note">Your entries are processed in your browser. This starter website does not collect or store personal information.</p>
+</main>
+<footer><div class="wrap">© <span id="year"></span> EasyToolbox · Free tools for everyday tasks</div></footer>
+<script>
+const $=s=>document.querySelector(s), panel=$('#panel'), body=$('#toolBody');
+$('#year').textContent=new Date().getFullYear();
+const tools={
+age:{title:'Age Calculator',html:`<div class="fields"><div class="field"><label>Date of birth</label><input id="dob" type="date"></div><div class="field"><label>Calculate age on</label><input id="asof" type="date"></div></div><div class="actions"><button class="btn" onclick="calcAge()">Calculate age</button></div><div class="result" id="out">Choose your dates to calculate your age.</div>`},
+percentage:{title:'Percentage Calculator',html:`<div class="fields"><div class="field"><label>What is</label><input id="pct" type="number" placeholder="e.g. 20"></div><div class="field"><label>Percent of</label><input id="of" type="number" placeholder="e.g. 150"></div></div><div class="actions"><button class="btn" onclick="calcPct()">Calculate</button></div><div class="result" id="out">Enter both numbers.</div><p class="note">This calculates X% of Y.</p>`},
+bmi:{title:'BMI Calculator',html:`<div class="fields"><div class="field"><label>Weight (kg)</label><input id="weight" type="number" min="1" step="0.1" placeholder="e.g. 65"></div><div class="field"><label>Height (cm)</label><input id="height" type="number" min="1" step="0.1" placeholder="e.g. 170"></div></div><div class="actions"><button class="btn" onclick="calcBMI()">Calculate BMI</button></div><div class="result" id="out">Enter your weight and height.</div><p class="note">BMI is a general screening measure, not a medical diagnosis.</p>`},
+calculator:{title:'Basic Calculator',html:`<div class="field"><label>Calculation</label><input id="expression" type="text" inputmode="decimal" placeholder="Example: (25 + 5) * 2"></div><div class="actions"><button class="btn" onclick="calcBasic()">Calculate</button><button class="btn secondary" onclick="$('#expression').value='';$('#out').textContent='Enter a calculation.'">Clear</button></div><div class="result" id="out">Enter a calculation using numbers and + − × ÷ ( ).</div>`},
+words:{title:'Word Counter',html:`<div class="field"><label>Your text</label><textarea id="textInput" placeholder="Type or paste your text here..." oninput="countWords()"></textarea></div><div class="result" id="out">Words: 0 · Characters: 0 · Sentences: 0</div>`},
+text:{title:'Text Case Converter',html:`<div class="field"><label>Your text</label><textarea id="caseInput" placeholder="Type or paste text here..."></textarea></div><div class="actions"><button class="btn" onclick="convertCase('upper')">UPPERCASE</button><button class="btn secondary" onclick="convertCase('lower')">lowercase</button><button class="btn secondary" onclick="convertCase('title')">Title Case</button><button class="btn secondary" onclick="copyResult()">Copy result</button></div><div class="result" id="out">Your converted text will appear here.</div>`},
+unit:{title:'Length Converter',html:`<div class="fields"><div class="field"><label>Value</label><input id="unitValue" type="number" placeholder="Enter value"></div><div class="field"><label>From</label><select id="unitFrom"><option value="m">Metres</option><option value="km">Kilometres</option><option value="cm">Centimetres</option><option value="ft">Feet</option><option value="in">Inches</option><option value="mi">Miles</option></select></div><div class="field"><label>To</label><select id="unitTo"><option value="ft">Feet</option><option value="m">Metres</option><option value="km">Kilometres</option><option value="cm">Centimetres</option><option value="in">Inches</option><option value="mi">Miles</option></select></div></div><div class="actions"><button class="btn" onclick="convertUnit()">Convert</button></div><div class="result" id="out">Enter a value and choose units.</div>`},
+password:{title:'Password Generator',html:`<div class="fields"><div class="field"><label>Password length</label><input id="passLength" type="number" min="8" max="64" value="16"></div></div><div class="actions"><button class="btn" onclick="makePassword()">Generate password</button><button class="btn secondary" onclick="copyPassword()">Copy</button></div><div class="result" id="out">Your password will appear here.</div><p class="note">Password is generated locally in your browser. Use a unique password for every account.</p>`}
+};
+function openTool(id){const t=tools[id];if(!t)return;$('#panelTitle').textContent=t.title;body.innerHTML=t.html;panel.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'start'});if(id==='age'){$('#asof').value=new Date().toISOString().slice(0,10);$('#dob').max=$('#asof').value}}
+document.querySelectorAll('.tool-card').forEach(c=>c.addEventListener('click',()=>openTool(c.dataset.tool)));
+$('#close').onclick=()=>panel.classList.remove('active');
+$('#search').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.tool-card').forEach(c=>c.classList.toggle('hidden',!c.innerText.toLowerCase().includes(q)))});
+function val(id){return Number($('#'+id).value)}
+function calcAge(){const d=new Date($('#dob').value+'T00:00:00'),a=new Date($('#asof').value+'T00:00:00');if(!$('#dob').value||!$('#asof').value||isNaN(d)||d>a){$('#out').textContent='Please enter valid dates. Date of birth must not be after the calculation date.';return}let y=a.getFullYear()-d.getFullYear(),m=a.getMonth()-d.getMonth(),day=a.getDate()-d.getDate();if(day<0){m--;day+=new Date(a.getFullYear(),a.getMonth(),0).getDate()}if(m<0){y--;m+=12}$('#out').textContent=`Your age is ${y} years, ${m} months and ${day} days.`}
+function calcPct(){const p=val('pct'),n=val('of');if(!$('#pct').value||!$('#of').value){$('#out').textContent='Please enter both numbers.';return}$('#out').textContent=`${p}% of ${n} = ${(p/100*n).toLocaleString(undefined,{maximumFractionDigits:8})}`}
+function calcBMI(){const w=val('weight'),h=val('height')/100;if(w<=0||h<=0||!$('#weight').value||!$('#height').value){$('#out').textContent='Please enter a valid weight and height.';return}const b=w/(h*h);let category=b<18.5?'Below standard adult range':b<25?'Standard adult range':b<30?'Above standard adult range':'High adult range';$('#out').textContent=`Your BMI is ${b.toFixed(1)} — ${category}.`}
+function calcBasic(){const s=$('#expression').value.trim();if(!s||!/^[0-9+\-*/().%\s]+$/.test(s)){ $('#out').textContent='Please use only numbers and arithmetic symbols.';return}try{const r=Function('"use strict";return ('+s+')')();$('#out').textContent=Number.isFinite(r)?`Result: ${r}`:'That calculation is not valid.'}catch(e){$('#out').textContent='That calculation is not valid.'}}
+function countWords(){const s=$('#textInput').value.trim(),words=s?s.split(/\s+/).length:0,chars=$('#textInput').value.length,sentences=s?(s.match(/[.!?]+(?=\s|$)/g)||[]).length:0;$('#out').textContent=`Words: ${words} · Characters: ${chars} · Sentences: ${sentences}`}
+function convertCase(type){const s=$('#caseInput').value;let r=type==='upper'?s.toUpperCase():type==='lower'?s.toLowerCase():s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());$('#out').textContent=r||'Please enter some text.'}
+function copyResult(){navigator.clipboard?.writeText($('#out').textContent).then(()=>alert('Copied!')).catch(()=>alert('Copy is not available in this browser.'))}
+const factors={m:1,km:1000,cm:.01,ft:.3048,in:.0254,mi:1609.344};
+function convertUnit(){const n=val('unitValue'),f=$('#unitFrom').value,t=$('#unitTo').value;if(!$('#unitValue').value){$('#out').textContent='Please enter a value.';return}$('#out').textContent=`${n} ${f} = ${(n*factors[f]/factors[t]).toLocaleString(undefined,{maximumFractionDigits:8})} ${t}`}
+function makePassword(){let n=Math.max(8,Math.min(64,Math.floor(val('passLength')||16))),chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*+-_';let a=new Uint32Array(n);crypto.getRandomValues(a);window.generatedPassword=Array.from(a,x=>chars[x%chars.length]).join('');$('#out').textContent=window.generatedPassword}
+function copyPassword(){if(!window.generatedPassword){$('#out').textContent='Generate a password first.';return}navigator.clipboard?.writeText(window.generatedPassword).then(()=>alert('Password copied!')).catch(()=>alert('Copy is not available in this browser.'))}
+</script>
+</body></html>
